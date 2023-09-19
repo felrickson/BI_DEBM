@@ -101,7 +101,7 @@ void iniciarInfusao(){   // ACIONA MOTOR, MOSTRA TEMPO E VOLUME RESTANTE NO DISP
     leitorBolha = inputBolha * 5/1023;
     //Serial.println(leitorBolha);
     // ACIONA MOTOR
-    analogWrite(motorPin, (int)velocidade);  // Aciona motor com velocidade calculada através da seleção dos parâmetros no menu
+    analogWrite(motorPin, map((int)velocidade, 0, 255, 51, 255));  // Aciona motor com velocidade calculada através da seleção dos parâmetros no menu
 
     // CONVERTE O TEMPO EM HORAS, MINUTOS E SEGUNDOS PARA MOSTRAR NO DISPLAY TEMPO RESTANTE
     tempo--;       // Decrementa o tempo restante
