@@ -1,21 +1,15 @@
-/* 
-  Projeto Bomba de infusão - EMH2 - Turma 2022.1
-    Alunos: Breno, Erick, João, Juliana, Jullyo, Luana, Thifany, Vitória, Talita, Tatianne 
-    Profa.: Marilú Gomes
-*/
-
 #include <LiquidCrystal.h>  //Inclui a biblioteca para display LCD
 #include <Keypad.h>         //Inclui a biblioteca para o teclado
 #include <string.h>         //Inclui a biblioteca para strings
 
-// PINOS USADOS: 4 ao 9 (display, porém estes bloqueiam outros), (22, 24, 26, 28, 38, 36, 34, 32, 30) (teclado), 44 (motor), 48 (buzzer), 49 (led), (50) conta bolha, (51) conta gota
+// PINOS USADOS: 4 ao 9 (display, porém estes bloqueiam outros), (22, 24, 26, 28, 38, 36, 34, 32, 30) (teclado), 44 (motor), 48 (buzzer), 49 (led), (A1) conta bolha, (A2) conta gota
 
 // ALARMES
 int buzPin = 48;    // Pino do buzzer
 int ledPin = 49;    // Pino do led
 int buzFreq = 528;  // Frequência do alarme sonoro;
-int bolhaPin = 50;
-int gotaPin = 51;
+int bolhaPin = A1; // Pino do conta bolha
+int gotaPin = A2;  // Pino do conta gota
 // DEFINIÇÕES DO DISPLAY
 const int rs = 8, en = 9, d4 = 4, d5 = 5, d6 = 6, d7 = 7;   //Pinos para ligar o display
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);                  //Define os pinos que serão usados para ligar o display
@@ -65,8 +59,10 @@ Keypad teclado = Keypad(makeKeymap(TECLAS_MATRIZ), PINOS_LINHAS, PINOS_COLUNAS, 
 void setup() {
   pinMode(ledPin, OUTPUT);    // Pino do led como saída
   pinMode(buzPin, OUTPUT);    // Pino do buzzer como saída
+  pinMode(bolhaPin,INPUT);
   lcd.begin(16, 2);           // Inicia display, definindo número de colunas e linhas (16x2)
-  lcd.noDisplay();            // Desliga luz de fundo do display
+  lcd.noDisplay();   // Desliga luz de fundo do display
+  Serial.begin(19200);
 }
 
 void inicializacao() {            // Imprimindo mensagem de inicialização
@@ -91,7 +87,8 @@ void telaInicial() {            // Mensagem de início de tela
 void iniciarInfusao(){   // ACIONA MOTOR, MOSTRA TEMPO E VOLUME RESTANTE NO DISPLAY
 
   infusaoEmAndamento = 1;               // Muda variável que indica infusão
-  int leitorBolha;                      // Variavel de leitura do conta bolha
+  float inputBolha;                     // Variavel de leitura do conta bolha
+  float leitorBolha;                    // Variavel de conversão do conta bolha
   int volumeInicial = volume;           // Pega o volume de infusão obtido através do menu
   unsigned long tempoInicial = tempo;   // Pega o tempo de infusão obtido/calculado através do menu 
   unsigned long tempoDecorrido = 0;     // Tempo decorrido de infusão
@@ -100,7 +97,9 @@ void iniciarInfusao(){   // ACIONA MOTOR, MOSTRA TEMPO E VOLUME RESTANTE NO DISP
   
   while (tempo > 0)   // Enquanto tempo restante de infusão for maior que zero
   { 
-    leitorBolha = analogRead(bolhaPin) * 5/1023;
+    inputBolha = analogRead(bolhaPin);
+    leitorBolha = inputBolha * 5/1023;
+    //Serial.println(leitorBolha);
     // ACIONA MOTOR
     analogWrite(motorPin, (int)velocidade);  // Aciona motor com velocidade calculada através da seleção dos parâmetros no menu
 
@@ -137,8 +136,10 @@ void iniciarInfusao(){   // ACIONA MOTOR, MOSTRA TEMPO E VOLUME RESTANTE NO DISP
 
     tecla = teclado.getKey();   // Lê teclado
 
-    if (leitorBolha == 0){      // caso encontre uma bolha
+    if (leitorBolha >= 0 && leitorBolha <= 0.1){  // caso encontre uma bolha
+      tone(buzPin, buzFreq);
       botaoPausarInfusao(false);
+      noTone(buzPin);
       continue;
       }
      
