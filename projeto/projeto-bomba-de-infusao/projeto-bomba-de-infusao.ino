@@ -72,7 +72,7 @@ void inicializacao() {            // Imprimindo mensagem de inicialização
   lcd.setCursor(0, 0);            // Selecionando coluna 0 e linha 0
   lcd.print("BOMBA DE INFUSAO");  // Print da mensagem
   lcd.setCursor(3, 1);            // Selecionando coluna 3 e linha 1
-  lcd.print("EB 2022.1");         // Print da mensagem
+  lcd.print("EB 2023.1");         // Print da mensagem
   delay(3000);                    // Atraso de 3 segundos
   lcd.clear();                    // Limpa a tela
 }
