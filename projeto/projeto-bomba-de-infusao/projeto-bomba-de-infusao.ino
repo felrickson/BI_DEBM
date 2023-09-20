@@ -7,14 +7,16 @@
 // ALARMES
 int buzPin = 48;    // Pino do buzzer
 int ledPin = 49;    // Pino do led
-int buzFreq = 528;  // Frequência do alarme sonoro;
+int buzFreq = 528;  // Frequência do alarme sonoro
 int bolhaPin = A1; // Pino do conta bolha
 int gotaPin = A2;  // Pino do conta gota
+
 // DEFINIÇÕES DO DISPLAY
 const int rs = 8, en = 9, d4 = 4, d5 = 5, d6 = 6, d7 = 7;   //Pinos para ligar o display
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);                  //Define os pinos que serão usados para ligar o display
 
-int horas = 0, minutos = 0, segundos = 0;   // Variáveis para o temporizador da infusão
+// Variáveis para o temporizador da infusão
+int horas = 0, minutos = 0, segundos = 0;
 
 unsigned long tempo = 0;              // Tempo total de infusão em segundos
 int volume = 0;                       // Volume total de infusão em ml
@@ -61,7 +63,7 @@ void setup() {
   pinMode(buzPin, OUTPUT);    // Pino do buzzer como saída
   pinMode(bolhaPin,INPUT);
   lcd.begin(16, 2);           // Inicia display, definindo número de colunas e linhas (16x2)
-  lcd.noDisplay();   // Desliga luz de fundo do display
+  lcd.noDisplay();            // Desliga luz de fundo do display
   Serial.begin(19200);
 }
 
