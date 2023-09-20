@@ -1,5 +1,7 @@
 const int sensorPin = A2;
-float limiar = 1; // Limiar para condição de contagem
+int gotas = 0;
+bool gotaDetectada = false;
+float limiar = 1; // Limiar para condiรงรฃo de contagem
 
 void setup() {
    Serial.begin(9600);
@@ -7,11 +9,11 @@ void setup() {
 }
 
 void loop() {
-   // Lê valor analógico do sensor e converte para tensão
+   // Lรช o valor analรณgico do sensor e converte para tensรฃo
    int sensorTensao = analogRead(sensorPin) *5/ 1023;
    Serial.println(sensorTensao);
 
-   // Verifica se a tensão está acima do limiar para detectar uma gota
+   // Verifica se a tensรฃo estรก acima do limiar para detectar uma gota
    if (sensorTensao > limiar && !gotaDetectada) {
       gotas++;
       gotaDetectada = true;
