@@ -16,3 +16,20 @@ Adicionar todas as funções implementas na bomba de infusão.
 - Teclado Matricial De Membrana 4x5 de 20 Teclas;
 - Equipo universal;
 - Resistores.
+
+## Autoria :man_technologist:
+
+### Docente Responsável
+- Marilú Gomes Netto Monte da Silva
+
+### Discentes da turma 2023.1 e squads
+
+| Hardware                 | Software                  | Design e Formatação Textual |
+|-----------------------------|-----------------------------|--------------------------------|
+| - Beatriz de Medeiros       | - Felipe Rickson            | - Albert Araújo                |
+| - Caio Ferreira             | - José Filipe de Andrade    | - Deidre Taylor                |
+| - Digne Boussoyi            | - Julia Cavalcante          | - Eduarda Lopes                |
+| - Julia Cavalcante          | - Luana Santiago            | - Maxchiela Rufino             |
+| - Júlio César Tavares       | - Nicole Charron            | - Rebeca Maximo                |
+| - Yasmin Oliveira           | - Pedro Gurgel              | - Sene Cassama                 |
+|                             | - Thales de Barros          | - Whendel Muniz                |
