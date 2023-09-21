@@ -1,5 +1,5 @@
 {
-    "port": "COM7",
+    "port": "COM8",
     "board": "arduino:avr:mega",
     "sketch": "projeto\\projeto-bomba-de-infusao\\projeto-bomba-de-infusao.ino"
 }

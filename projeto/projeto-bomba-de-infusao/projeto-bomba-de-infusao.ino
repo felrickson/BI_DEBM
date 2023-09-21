@@ -14,6 +14,7 @@ int gotaPin = A15;  // Pino do conta gota
 // DEFINIÇÕES DO DISPLAY
 const int rs = 8, en = 9, d4 = 4, d5 = 5, d6 = 6, d7 = 7;   //Pinos para ligar o display
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);                  //Define os pinos que serão usados para ligar o display
+char estado[16] = "Null main";
 
 // Variáveis para o temporizador da infusão
 int horas = 0, minutos = 0, segundos = 0;
@@ -88,14 +89,14 @@ void telaInicial() {            // Mensagem de início de tela
 
 bool checaFluxo() {             //checa o fluxo
 
-lcd.clear();
-lcd.print("Checando...");
+//lcd.clear();
+//lcd.print("Checando fluxo...");
 int gotas = 0;
 int intervalo = 1;
 int contador = 0;
 bool gotaDetectada = false;
 bool fluxo = true;
-float limiar = 75; // Limiar para condicao de contagem
+float limiar = 50; // Limiar para condicao de contagem
 
     while(contador<=1000){
 
@@ -113,40 +114,54 @@ float limiar = 75; // Limiar para condicao de contagem
 }
       if(gotas>0){
         fluxo = true;
-        lcd.clear();
-        lcd.print("Deu Bom");
-        lcd.setCursor(0, 1);
-        lcd.print(gotas);
+        //lcd.clear();
+        //lcd.print("Deu Bom");
+        //lcd.setCursor(0, 1);
+        //lcd.print(gotas);
       }
       else{
         fluxo = false;
-        lcd.clear();
-        lcd.print("Deu Ruim");
-        lcd.setCursor(0, 1);
-        lcd.print(gotas);
+        //lcd.clear();
+        //lcd.print("Deu Ruim");
+        //lcd.setCursor(0, 1);
+        //lcd.print(gotas);
       }
       delay(1000);
       contador = 0;
       gotas = 0;
+      //lcd.clear();
       return fluxo;
+}
+
+bool checaBolha() {
+
+    //lcd.clear();
+    //lcd.print("Checando bolha...");
+    //delay(2000);
+    bool bolha = false;
+    float inputBolha = analogRead(bolhaPin);  // Variavel de leitura do conta bolha
+    float leitorBolha = inputBolha * 5/1023;  // Variavel de conversão do conta bolha
+
+if(leitorBolha >= 0 && leitorBolha <= 0.1){
+  bolha = true;
+}
+return bolha;
+//lcd.clear();
 }
 
 void iniciarInfusao(){   // ACIONA MOTOR, MOSTRA TEMPO E VOLUME RESTANTE NO DISPLAY
 
   infusaoEmAndamento = 1;               // Muda variável que indica infusão
-  float inputBolha;                     // Variavel de leitura do conta bolha
-  float leitorBolha;                    // Variavel de conversão do conta bolha
   int volumeInicial = volume;           // Pega o volume de infusão obtido através do menu
   unsigned long tempoInicial = tempo;   // Pega o tempo de infusão obtido/calculado através do menu 
   unsigned long tempoDecorrido = 0;     // Tempo decorrido de infusão
   int volumeInfundido = 0;              // Volume infundido
   char tecla = " ";                     // Variável para observar se alguma tecla foi pressionada
+  char estado[16] = "Null infus";
+
   
   while (tempo > 0)   // Enquanto tempo restante de infusão for maior que zero
   { 
-    inputBolha = analogRead(bolhaPin);
-    leitorBolha = inputBolha * 5/1023;
-    //Serial.println(leitorBolha);
     // ACIONA MOTOR
     analogWrite(motorPin, map((int)velocidade, 0, 255, 51, 255));  // Aciona motor com velocidade calculada através da seleção dos parâmetros no menu
 
@@ -183,7 +198,8 @@ void iniciarInfusao(){   // ACIONA MOTOR, MOSTRA TEMPO E VOLUME RESTANTE NO DISP
 
     tecla = teclado.getKey();   // Lê teclado
 
-    if (leitorBolha >= 0 && leitorBolha <= 0.1){  // caso encontre uma bolha
+    if (checaBolha()==true){  // caso encontre uma bolha
+      estado[16] = "Bolha";
       tone(buzPin, buzFreq);
       botaoPausarInfusao(false);
       noTone(buzPin);
@@ -191,6 +207,7 @@ void iniciarInfusao(){   // ACIONA MOTOR, MOSTRA TEMPO E VOLUME RESTANTE NO DISP
       }
      
     if(checaFluxo()==false){
+      estado[16] = "Entupido";
       tone(buzPin, buzFreq);
       botaoPausarInfusao(false);
       noTone(buzPin);
@@ -229,6 +246,7 @@ void iniciarInfusao(){   // ACIONA MOTOR, MOSTRA TEMPO E VOLUME RESTANTE NO DISP
       telaInicial();                  // Volta para a tela inicial
     } 
   }
+  return estado[16];
 }
 
 // TECLADO
@@ -476,7 +494,12 @@ void botaoPausarInfusao(int verificacao) {   // Pausar infusão
    else{
       lcd.clear();
       lcd.setCursor(0, 0);                            // Posiciona cursor na coluna 0 e linha 0
-      lcd.print("Infusao pausada devido a bolha na mangueira!");                  // Imprime mensagem
+      lcd.print("Infusao pausada!");                  // Imprime mensagem
+      lcd.setCursor(0, 1);
+        if(checaBolha()==true){lcd.print("Bolha");}
+        if(checaFluxo()==false){lcd.print("Oclusao");}
+        else{lcd.print("Deu ruim");}
+
       delay(2000);
       if(!confirmacaoDuasEtapas("Deseja retomar?")){  // Pede confirmação de duas etapas - caso negada:
         analogWrite(motorPin, LOW);                   // Desaciona o motor
