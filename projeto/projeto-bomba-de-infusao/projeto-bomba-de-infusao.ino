@@ -8,8 +8,8 @@
 int buzPin = 48;    // Pino do buzzer
 int ledPin = 49;    // Pino do led
 int buzFreq = 528;  // Frequência do alarme sonoro
-int bolhaPin = A1; // Pino do conta bolha
-int gotaPin = A2;  // Pino do conta gota
+int bolhaPin = A14; // Pino do conta bolha
+int gotaPin = A15;  // Pino do conta gota
 
 // DEFINIÇÕES DO DISPLAY
 const int rs = 8, en = 9, d4 = 4, d5 = 5, d6 = 6, d7 = 7;   //Pinos para ligar o display
@@ -81,9 +81,54 @@ void telaInicial() {            // Mensagem de início de tela
   
   lcd.clear();                  // Limpa display
   lcd.setCursor(0, 0);          // Selecionando coluna 0 e linha 0
-  lcd.print("Clicar em Menu");  // Print da mensagem
+  lcd.print("Clicar em >");  // Print da mensagem
   lcd.setCursor(0, 1);          // Selecionando coluna 3 e linha 1
   lcd.print("para iniciar.");   // Print da mensagem
+}
+
+bool checaFluxo() {             //checa o fluxo
+
+lcd.clear();
+lcd.print("Checando...");
+int gotas = 0;
+int intervalo = 1;
+int contador = 0;
+bool gotaDetectada = false;
+bool fluxo = true;
+float limiar = 75; // Limiar para condicao de contagem
+
+    while(contador<=1000){
+
+        int sensorTensao = analogRead(gotaPin)*4.88758;
+
+   // Verifica se a tensao esta acima do limiar para detectar uma gota
+   if (sensorTensao > limiar && !gotaDetectada) {
+      gotas++;
+      gotaDetectada = true;
+   } else if (sensorTensao < limiar) {
+      gotaDetectada = false;
+   }
+   delay(intervalo);
+   contador++;
+}
+      if(gotas>0){
+        fluxo = true;
+        lcd.clear();
+        lcd.print("Deu Bom");
+        lcd.setCursor(0, 1);
+        lcd.print(gotas);
+      }
+      else{
+        fluxo = false;
+        lcd.clear();
+        lcd.print("Deu Ruim");
+        lcd.setCursor(0, 1);
+        lcd.print(gotas);
+      }
+      delay(1000);
+      contador = 0;
+      gotas = 0;
+      return fluxo;
 }
 
 void iniciarInfusao(){   // ACIONA MOTOR, MOSTRA TEMPO E VOLUME RESTANTE NO DISPLAY
@@ -145,6 +190,13 @@ void iniciarInfusao(){   // ACIONA MOTOR, MOSTRA TEMPO E VOLUME RESTANTE NO DISP
       continue;
       }
      
+    if(checaFluxo()==false){
+      tone(buzPin, buzFreq);
+      botaoPausarInfusao(false);
+      noTone(buzPin);
+      continue;
+    }
+
     // CONFERE SE DESEJA PAUSAR
     if(tecla == 'T'){         // Se botão de pausa for pressionado, pausa infusão
       botaoPausarInfusao(true);   // Pausa infusão
@@ -422,6 +474,7 @@ void botaoPausarInfusao(int verificacao) {   // Pausar infusão
     }  
       }
    else{
+      lcd.clear();
       lcd.setCursor(0, 0);                            // Posiciona cursor na coluna 0 e linha 0
       lcd.print("Infusao pausada devido a bolha na mangueira!");                  // Imprime mensagem
       delay(2000);

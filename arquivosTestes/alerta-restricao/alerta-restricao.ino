@@ -12,9 +12,7 @@ void setup() {
 
 void loop() {
 
-    while(contador<1000){
-
-    gotas = 0;
+    while(contador<=1000){
 
         int sensorTensao = analogRead(sensorPin)*4.88758;
 
@@ -26,6 +24,14 @@ void loop() {
       gotaDetectada = false;
    }
    delay(intervalo);
+   contador++;
+   //Serial.println(contador);
 }
-      Serial.println("contei");
+      Serial.println(gotas);
+      if(gotas>0){Serial.println("deu bom");}
+      else{Serial.println("deu ruim");}
+      delay(1000);
+      Serial.print("medindo...  ");
+      contador = 0;
+      gotas = 0;
 }
