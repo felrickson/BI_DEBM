@@ -1,7 +1,7 @@
 const int sensorPin = A15;
 int gotas = 0;
 bool gotaDetectada = false;
-float limiar = 100; // Limiar para condicao de contagem
+float limiar = 75; // Limiar para condicao de contagem
 
 void setup() {
    Serial.begin(9600);
@@ -22,6 +22,4 @@ void loop() {
    } else if (sensorTensao < limiar) {
       gotaDetectada = false;
    }
-
-   delay(5);
 }
