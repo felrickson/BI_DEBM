@@ -1,7 +1,7 @@
 {
     "port": "COM7",
     "board": "arduino:avr:mega",
-    "sketch": "arquivosTestes\\contador-gota-teste\\contador-gota-teste.ino",
+    "sketch": "projeto\\projeto-bomba-de-infusao\\projeto-bomba-de-infusao.ino",
     "configuration": "cpu=atmega2560",
     "programmer": "avrisp"
 }
