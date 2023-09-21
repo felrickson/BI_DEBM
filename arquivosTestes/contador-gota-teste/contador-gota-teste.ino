@@ -1,5 +1,7 @@
 const int sensorPin = A15;
 int gotas = 0;
+int intervalo = 1;
+int contador = 0;
 bool gotaDetectada = false;
 float limiar = 75; // Limiar para condicao de contagem
 
@@ -18,8 +20,17 @@ void loop() {
       gotaDetectada = true;
       Serial.print("Gotas contadas: ");
       Serial.println(gotas);
-      Serial.println(sensorTensao);
+      Serial.print("Tensão:         ");
+      Serial.print(sensorTensao);
+      Serial.println("mV");
+      Serial.print("Período:        ");
+      Serial.print(intervalo*contador);
+      Serial.println("ms");
+      contador = 0;
    } else if (sensorTensao < limiar) {
       gotaDetectada = false;
+      contador++;
    }
+
+   delay(intervalo);
 }
