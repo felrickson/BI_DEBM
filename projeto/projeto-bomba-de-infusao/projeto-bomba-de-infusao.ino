@@ -5,11 +5,11 @@
 // PINOS USADOS: 4 ao 9 (display, porém estes bloqueiam outros), (22, 24, 26, 28, 38, 36, 34, 32, 30) (teclado), 44 (motor), 48 (buzzer), 49 (led), (A1) conta bolha, (A2) conta gota
 
 // ALARMES
-int buzPin = 48;    // Pino do buzzer
-int ledPin = 49;    // Pino do led
+int buzPin = 44;    // Pino do buzzer
+int ledPin = 23;    // Pino do led
 int buzFreq = 528;  // Frequência do alarme sonoro
-int bolhaPin = A14; // Pino do conta bolha
-int gotaPin = A15;  // Pino do conta gota
+int bolhaPin = A15; // Pino do conta bolha
+int gotaPin = A14;  // Pino do conta gota
 
 // DEFINIÇÕES DO DISPLAY
 const int rs = 8, en = 9, d4 = 4, d5 = 5, d6 = 6, d7 = 7;   //Pinos para ligar o display
@@ -37,7 +37,7 @@ int vazaoKVOMin = vazaoMin;           // Vazão KVO mínima igual a vazão míni
 int vazaoKVOMax = 10;                 // Vazão KVO máxima de 10 ml/h
 
 // DEFINIÇÕES MOTOR
-int  motorPin = 44;               // Pino do motor (precisa ser pwm)
+int  motorPin = 45;               // Pino do motor (precisa ser pwm)
 const float VN = 255.0/vazaoMax;  // Vazão nominal
 float velocidade = 0;             // Velocidade do motor
 
@@ -53,8 +53,8 @@ const char TECLAS_MATRIZ[LINHAS][COLUNAS] = {   // Matriz de caracteres (mapeame
   {'L', '0', 'R', 'E'}
 };
 
-byte PINOS_LINHAS[LINHAS] = {38, 36, 34, 32, 30};   // Pinos de conexão com as linhas do teclado
-byte PINOS_COLUNAS[COLUNAS] = {22, 24, 26, 28};     // Pinos de conexão com as colunas do teclado
+byte PINOS_LINHAS[LINHAS] = {30, 28, 26, 24, 22};   // Pinos de conexão com as linhas do teclado
+byte PINOS_COLUNAS[COLUNAS] = {52, 50, 48, 46};     // Pinos de conexão com as colunas do teclado
 
 Keypad teclado = Keypad(makeKeymap(TECLAS_MATRIZ), PINOS_LINHAS, PINOS_COLUNAS, LINHAS, COLUNAS);   // Inicia teclado
 
