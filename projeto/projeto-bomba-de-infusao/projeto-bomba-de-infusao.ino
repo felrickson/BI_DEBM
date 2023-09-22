@@ -43,7 +43,7 @@ float velocidade = 0;             // Velocidade do motor
 
 // DEFINIÇÕES DO TECLADO
 const byte LINHAS = 5;      // Linhas do teclado
-const byte COLUNAS = 4;     // Colunas do teclado
+const byte   COLUNAS = 4;     // Colunas do teclado
 
 const char TECLAS_MATRIZ[LINHAS][COLUNAS] = {   // Matriz de caracteres (mapeamento do teclado)
   {'A', 'B', '#', '*'},
@@ -163,11 +163,11 @@ void iniciarInfusao(){   // ACIONA MOTOR, MOSTRA TEMPO E VOLUME RESTANTE NO DISP
   while (tempo > 0)   // Enquanto tempo restante de infusão for maior que zero
   { 
     // ACIONA MOTOR
-    analogWrite(motorPin, map((int)velocidade, 0, 255, 51, 255));  // Aciona motor com velocidade calculada através da seleção dos parâmetros no menu
+    analogWrite(motorPin, map((int)velocidade, 0, 255, 100, 255));  // Aciona motor com velocidade calculada através da seleção dos parâmetros no menu
 
     // CONVERTE O TEMPO EM HORAS, MINUTOS E SEGUNDOS PARA MOSTRAR NO DISPLAY TEMPO RESTANTE
     tempo--;       // Decrementa o tempo restante
-    delay(1000);   // Atraso de 1 segundo
+    //delay(1000);   // Atraso de 1 segundo
     
     horas = ((tempo / 60)/ 60);    // Converte tempo restante em horas (t/3600)
     minutos = (tempo / 60) % 60;   // Converte tempo restante em minutos (ao separar as horas, pega o que sobrou de minutos)
