@@ -478,9 +478,10 @@ void botaoPausarInfusao(int verificacao) {   // Pausar infusão
   
     if (verificacao == true){
        if(confirmacaoDuasEtapas("Deseja pausar?")){      // Pede confirmação de duas etapas
-      lcd.setCursor(0, 0);                            // Posiciona cursor na coluna 0 e linha 0
-      lcd.print("Infusao pausada!");                  // Imprime mensagem
-      delay(2000);                                    // Atraso de 2 segundos
+          analogWrite(motorPin, LOW);     // Desaciona o motor
+          lcd.setCursor(0, 0);                            // Posiciona cursor na coluna 0 e linha 0
+          lcd.print("Infusao pausada!");                  // Imprime mensagem
+          delay(2000);                                    // Atraso de 2 segundos
       if(!confirmacaoDuasEtapas("Deseja retomar?")){  // Pede confirmação de duas etapas - caso negada:
         analogWrite(motorPin, LOW);                   // Desaciona o motor
         horas = 0, minutos = 0, segundos = 0, tempo = 0, volume = 0, vazao = 0, velocidade = 0, modo = " ", infusaoEmAndamento = 0; // Reseta todas variáveis        
@@ -494,6 +495,7 @@ void botaoPausarInfusao(int verificacao) {   // Pausar infusão
    else{
       lcd.clear();
       lcd.setCursor(0, 0);                            // Posiciona cursor na coluna 0 e linha 0
+      analogWrite(motorPin, LOW);     // Desaciona o motor
       lcd.print("Infusao pausada!");                  // Imprime mensagem
       lcd.setCursor(0, 1);
         if(checaBolha()==true){lcd.print("Bolha");}   // Avalia se a parada ocasionou por bolha e avisa
