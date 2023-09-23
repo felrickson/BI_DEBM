@@ -500,7 +500,6 @@ void botaoPausarInfusao(int verificacao) {   // Pausar infusão
       lcd.setCursor(0, 1);
         if(checaBolha()==true){lcd.print("Bolha");}   // Avalia se a parada ocasionou por bolha e avisa
         if(checaFluxo()==false){lcd.print("Oclusao");}// Avalia se a parada ocasionou por oclusão e avisa
-        else{lcd.print("Deu ruim");}                  // estado de falha na verificação do motivo da pausa
 
       delay(2000);
       if(!confirmacaoDuasEtapas("Deseja retomar?")){  // Pede confirmação de duas etapas - caso negada:
