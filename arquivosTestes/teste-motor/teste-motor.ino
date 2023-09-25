@@ -9,6 +9,6 @@ int motPin = 45;
 
     void loop(){
 
-analogWrite(motPin, 100);
+analogWrite(motPin, 70);
 
     }

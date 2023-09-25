@@ -96,7 +96,7 @@ int intervalo = 1;
 int contador = 0;
 bool gotaDetectada = false;
 bool fluxo = true;
-float limiar = 50; // Limiar para condicao de contagem
+float limiar = 25; // Limiar para condicao de contagem
 
     while(contador<=1000){
 
